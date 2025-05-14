@@ -1,7 +1,6 @@
 import { Devvit } from '@devvit/public-api';
 import * as QR from 'qrcode'
 import * as jose from 'jose'
-import * as uuid from 'uuid'
 
 Devvit.configure({ redditAPI: true, media: true })
 Devvit.addSettings({ scope: 'app', type: 'string', name: 'jwk', label: 'secret signing jwk', isSecret: true })
@@ -22,7 +21,6 @@ Devvit.addMenuItem({
             "grants": {
               "urn:ietf:params:oauth:grant-type:pre-authorized_code": {
                 "pre-authorized_code": await new jose.SignJWT({ subreddit: subRedditName, username: user.username, linkKarma: user.linkKarma, commentKarma: user.commentKarma, createdAt: user.createdAt })
-                  .setJti(`urn:uuid:${uuid.v4()}`)
                   .setIssuer(context.appName)
                   .setExpirationTime('15 minutes')
                   .setSubject(context.userId!)
